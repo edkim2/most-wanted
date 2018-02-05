@@ -1,4 +1,4 @@
-/*
+ /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
 
@@ -7,7 +7,7 @@ function app(people){
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
-    // TODO: search by name
+    searchByName(people);
     break;
     case 'no':
     searchByTraits(people);
@@ -19,6 +19,8 @@ function app(people){
   }
 }
 
+app(people);
+
 function searchByTraits(people) {
   let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
   let filteredPeople;
@@ -26,10 +28,17 @@ function searchByTraits(people) {
   switch(userSearchChoice) {
     case "height":
       filteredPeople = searchByHeight(people);
+      displayPeople(filteredPeople);
       break;
+  
     case "weight":
       filteredPeople = searchByWeight(people);
+      displayPeople(filteredPeople);
       break;
+    case "eye color":
+      filteredPeople = searchEyeColor(people);
+      displayPeople(filteredPeople);
+
     // so on and so forth
     default:
       alert("You entered an invalid search type! Please try again.");
@@ -40,6 +49,33 @@ function searchByTraits(people) {
   let foundPerson = filteredPeople[0];
 
   mainMenu(foundPerson, people);
+
+}
+
+function searchEyeColor(people) {
+  let userInputEyeColor = prompt("What color eyes does the person have?");
+
+  let newArray = people.filter(function (el) {
+    if(el.eyeColor == userInputEyeColor) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+
+  return newArray;
+}
+function searchByHeight(people) {
+  let userInputHeight = prompt("How tall is the person");
+
+  let newArray = people.filter(function (el) {
+    if(el.height == userInputHeight) {
+    return true;
+
+    }
+
+  });
+
+  return newArray;
 
 }
 
@@ -129,3 +165,4 @@ function yesNo(input){
 function chars(input){
   return true; // default validation only
 }
+
