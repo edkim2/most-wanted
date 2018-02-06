@@ -43,6 +43,12 @@ function searchByTraits(people) {
     case "occupation":
       filteredPeople = searchOccupation(people);
       displayPeople(filteredPeople);
+      break;
+    case "gender":
+      filteredPeople = searchGender(people);
+      displayPeople(filteredPeople);
+      break;
+      
 
 
     // so on and so forth
@@ -51,6 +57,7 @@ function searchByTraits(people) {
       searchByTraits(people);
       break;
   }
+
 
   // ask if they want to search again
     // if yes, call searchByTraits
@@ -67,8 +74,21 @@ function searchByTraits(people) {
 
 }
 
+function searchGender(people) {
+  let userInputGender = prompt("What gender is your person?");
+
+  let newArray = people.filter(function (el) {
+    if(el.gender == userInputGender) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+
+  return newArray;
+}
+
 function searchOccupation(people) {
-  let userInputOccupation = prompt("What is occupation does your person have?");
+  let userInputOccupation = prompt("What occupation does your person have?");
 
   let newArray = people.filter(function (el) {
     if(el.occupation == userInputOccupation) {
