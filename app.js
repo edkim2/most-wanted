@@ -19,11 +19,12 @@ function app(people){
   }
 }
 
-app(people);
+// app(people);
 
 function searchByTraits(people) {
   let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
   let filteredPeople;
+  let foundPerson;
 
   switch(userSearchChoice) {
     case "height":
@@ -38,18 +39,45 @@ function searchByTraits(people) {
     case "eye color":
       filteredPeople = searchEyeColor(people);
       displayPeople(filteredPeople);
+      break;
+    case "occupation":
+      filteredPeople = searchOccupation(people);
+      displayPeople(filteredPeople);
+
 
     // so on and so forth
     default:
       alert("You entered an invalid search type! Please try again.");
       searchByTraits(people);
       break;
-  }  
+  }
 
-  let foundPerson = filteredPeople[0];
+  // ask if they want to search again
+    // if yes, call searchByTraits
+  userSearchChoice = prompt("Would you like to search again based on the new list of people?");
 
+    if(userSearchChoice === "yes"){
+      searchByTraits(filteredPeople);
+    }
+    else{
+    foundPerson = filteredPeople[0];
+  }
+  
   mainMenu(foundPerson, people);
 
+}
+
+function searchOccupation(people) {
+  let userInputOccupation = prompt("What is occupation does your person have?");
+
+  let newArray = people.filter(function (el) {
+    if(el.occupation == userInputOccupation) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+
+  return newArray;
 }
 
 function searchEyeColor(people) {
@@ -64,6 +92,7 @@ function searchEyeColor(people) {
 
   return newArray;
 }
+
 function searchByHeight(people) {
   let userInputHeight = prompt("How tall is the person");
 
@@ -103,12 +132,13 @@ function mainMenu(person, people){
   }
 
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+  let filteredPerson;
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    filteredPerson = displayPerson(person);
     break;
     case "family":
+
     // TODO: get person's family
     break;
     case "descendants":
@@ -122,11 +152,13 @@ function mainMenu(person, people){
     default:
     return mainMenu(person, people); // ask again
   }
+    let foundPerson = filteredPerson[0];
 }
 
 function searchByName(people){
   var firstName = promptFor("What is the person's first name?", chars);
   var lastName = promptFor("What is the person's last name?", chars);
+ 
 
   // TODO: find the person using the name they entered
 
@@ -140,13 +172,17 @@ function displayPeople(people){
 }
 
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
   alert(personInfo);
 }
+
+
 
 // function that prompts and validates user input
 function promptFor(question, valid){
