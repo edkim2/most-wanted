@@ -4,6 +4,7 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
+  setAges(people);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
@@ -48,7 +49,12 @@ function searchByTraits(people) {
       filteredPeople = searchGender(people);
       displayPeople(filteredPeople);
       break;
-      
+    case "age": 
+      filteredPeople = searchAge(people);
+      displayPeople(filteredPeople);
+      break;
+
+
 
 
     // so on and so forth
@@ -72,6 +78,35 @@ function searchByTraits(people) {
   
   mainMenu(foundPerson, people);
 
+}
+
+function getAge(dob){
+
+  var today = new Date();
+  var oldDay = new Date(dob);
+  var timeDifference = Math.abs(oldDay.getTime() - today.getTime());
+  var differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
+  var age = Math.floor((differentDays/ 365));
+  return age;
+}
+
+function setAges(people){
+  people = people.map(function (el) {
+    el.age = getAge(el.dob);
+  });
+}
+
+function searchAge(people) {
+  let userInputAge = prompt("What age is your person?");
+
+  let newArray = people.filter(function (el) {
+    if(el.age == userInputAge) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+
+  return newArray;
 }
 
 function searchGender(people) {
