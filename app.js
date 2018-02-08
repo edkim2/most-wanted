@@ -116,7 +116,7 @@ function searchEyeColor(people) {
   return newArray;
 }
 function searchByHeight(people) {
-  let userInputHeight = prompt("How tall is the person");
+  let userInputHeight = prompt("How tall is the person?");
 
   let newArray = people.filter(function (el) {
     if(el.height == userInputHeight) {
@@ -179,6 +179,7 @@ function mainMenu(person, people){
     }
 }
 function app(people){
+  setAges(people);
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
