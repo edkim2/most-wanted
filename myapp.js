@@ -11,9 +11,7 @@ function app(people){
     searchByName(people);
     break;
     case 'no':
-    let filteredPeople = searchByTraits(people);
-    //need to call a function that enshures that filtered people only has one person in it
-    getFamily(person ,people);
+    searchByTraits(people);
     break;
     default:
     alert("Wrong! Please try again, following the instructions dummy. :)");
@@ -22,60 +20,63 @@ function app(people){
   }
 }
 
+// app(people);
 
-function searchByTraits(allPeople, somePeople) {
+function searchByTraits(people) {
   let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
   let filteredPeople;
   let foundPerson;
 
-  if (somePeople === undefined) {
-    somePeople = allPeople;
-  }
-
   switch(userSearchChoice) {
     case "height":
-      filteredPeople = searchByHeight(somePeople);
+      filteredPeople = searchByHeight(people);
       displayPeople(filteredPeople);
       break;
   
     case "weight":
-      filteredPeople = searchByWeight(somePeople);
+      filteredPeople = searchByWeight(people);
       displayPeople(filteredPeople);
       break;
     case "eye color":
-      filteredPeople = searchEyeColor(somePeople);
+      filteredPeople = searchEyeColor(people);
       displayPeople(filteredPeople);
       break;
     case "occupation":
-      filteredPeople = searchOccupation(somePeople);
+      filteredPeople = searchOccupation(people);
       displayPeople(filteredPeople);
       break;
     case "gender":
-      filteredPeople = searchGender(somePeople);
+      filteredPeople = searchGender(people);
       displayPeople(filteredPeople);
       break;
     case "age": 
-      filteredPeople = searchAge(somePeople);
+      filteredPeople = searchAge(people);
       displayPeople(filteredPeople);
       break;
+
+
+
+
+    // so on and so forth
     default:
       alert("You entered an invalid search type! Please try again.");
-      searchByTraits(allPeople, filteredPeople);
+      searchByTraits(people);
       break;
-      return filteredPeople;
-
   }
 
+
+  // ask if they want to search again
+    // if yes, call searchByTraits
   userSearchChoice = prompt("Would you like to search again based on the new list of people?");
 
     if(userSearchChoice === "yes"){
-      searchByTraits(allPeople, filteredPeople);
+      searchByTraits(filteredPeople);
     }
     else{
     foundPerson = filteredPeople[0];
   }
   
-  mainMenu(foundPerson, allPeople);
+  mainMenu(foundPerson, people);
 
 }
 
@@ -178,6 +179,8 @@ function searchByWeight(people) {
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
 
+  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
+
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
@@ -190,7 +193,7 @@ function mainMenu(person, people){
     filteredPerson = displayPerson(person);
     break;
     case "family":
-    filteredPerson = displayPeople(getFamily(person, people));
+     // TODO: get person's family
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -203,7 +206,7 @@ function mainMenu(person, people){
     default:
     return mainMenu(person, people); // ask again
   }
-    let foundPerson = filteredPerson;
+    let foundPerson = filteredPerson[0];
 }
 
 function searchByName(people){
@@ -212,11 +215,11 @@ function searchByName(people){
   // TODO: find the person using the name they entere
 }
 
+// alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
-
 }
 
 function displayPerson(person){
@@ -230,6 +233,7 @@ function displayPerson(person){
   alert(personInfo);
 }
 
+// function that prompts and validates user input
 function promptFor(question, valid){
   do{
     var response = prompt(question).trim();
@@ -237,6 +241,7 @@ function promptFor(question, valid){
   return response;
 }
 
+// helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
@@ -251,46 +256,29 @@ function getFamily(person, people){
   let children = getChildren(person, people);
   let currentSpouse = getCurrentSpouse(person, people);
   let family = [person] 
-  if(parents !== undefined) family = family.concat(parents);
-  if(children !== undefined) family = family.concat(children);
-  if(currentSpouse !== undefined) family = family.concat(currentSpouse);
-  family.shift();
-  return family
+  if()
+
 }
 
 
 function getChildren(person, people){
   let children = people.filter(function (el){
-  for(let i = 0; i <= el.parents.length; i++){
-    if(el.parents[i] == person.id){
+    if(el.children == person.id){
       return true
     }
   }
-  });
   return children
 }
 
 function getParents(person, people){
-  let parents = people.filter(function (el){
-    for(let i = 0; i <= el.parents.length; i++){
-      if(person.parents[i] == el.id){
-        return true
-      }
-    }
-  });
-  return parents
 
 }
 
-function getCurrentSpouse(person, people){
+function getCurrentSpouse(person. people){
   let currentSpouse = people.filter(function (el){
     if(el.currentSpouse == person.id){
       return true
     }
-  });
+  }
   return currentSpouse
-}
-
-function getSiblings(person, people){
-  let siblings = 
 }
