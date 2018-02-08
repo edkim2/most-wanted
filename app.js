@@ -1,4 +1,3 @@
-
 function searchByTraits(allPeople, somePeople) {
   let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
   let filteredPeople;
@@ -49,7 +48,7 @@ function searchByTraits(allPeople, somePeople) {
       searchByTraits(allPeople, filteredPeople);
     }
     else{
-    foundPerson = filteredPeople[0];
+    foundPerson = filteredPeople;
   }
   
   mainMenu(foundPerson, allPeople);
@@ -169,6 +168,7 @@ function mainMenu(person, people){
     filteredPerson = displayPeople(getFamily(person[0], people));
     break;
     case "descendants":
+    // TODO: get person's descendants
     filteredPeople = getDescendants(person[0], people);
     displayPeople(filteredPeople);
     break;
@@ -248,12 +248,10 @@ function promptFor(question, valid){
   } while(!response || !valid(response));
   return response;
 }
-
 function yesNo(input){
+ 
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
-
-// helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
 }
@@ -261,15 +259,15 @@ function getFamily(person, people){
   let parents = getParents(person, people);
   let children = getChildren(person, people);
   let currentSpouse = getCurrentSpouse(person, people);
+  let siblings = getSiblings(person,people);
   let family = [person] 
   if(parents !== undefined) family = family.concat(parents);
   if(children !== undefined) family = family.concat(children);
   if(currentSpouse !== undefined) family = family.concat(currentSpouse);
+  if(siblings !== undefined) family = family.concat(siblings);
   family.shift();
   return family
 }
-
-
 function getChildren(person, people){
   let children = people.filter(function (el){
   for(let i = 0; i <= el.parents.length; i++){
@@ -280,7 +278,6 @@ function getChildren(person, people){
   });
   return children
 }
-
 function getParents(person, people){
   let parents = people.filter(function (el){
     for(let i = 0; i <= el.parents.length; i++){
@@ -290,9 +287,7 @@ function getParents(person, people){
     }
   });
   return parents
-
 }
-
 function getCurrentSpouse(person, people){
   let currentSpouse = people.filter(function (el){
     if(el.currentSpouse == person.id){
@@ -301,4 +296,17 @@ function getCurrentSpouse(person, people){
   });
   return currentSpouse
 }
-
+function getSiblings(person, people){
+  let siblings = people.filter(function (el){
+    if(el.parents !== undefined && person.parents !== undefined){
+      for(let i = 0; i < el.parents.length; i++){
+        for(let j = 0; j < person.parents.length; j++){
+          if(el.parents[i] === person.parents[j] && el.id !== person.id){
+            return true
+          }
+        }
+      }
+    }
+  });
+  return siblings;
+}
