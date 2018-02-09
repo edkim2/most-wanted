@@ -42,7 +42,7 @@ function searchByTraits(allPeople, somePeople) {
 
   }
 
-  userSearchChoice = prompt("Would you like to search again based on the new list of people?");
+  userSearchChoice = prompt("Would you like to search again based on the new list of people? Enter 'yes' or 'no'");
 
     if(userSearchChoice === "yes"){
       searchByTraits(allPeople, filteredPeople);
